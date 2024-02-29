@@ -18,9 +18,9 @@ render(
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <BrowserRouter>
-          <Elements stripe={stripePromise}>
-            <App />
-          </Elements>
+          {/* <Elements stripe={stripePromise}> */}
+          <App />
+          {/* </Elements> */}
         </BrowserRouter>
       </PersistGate>
     </Provider>
