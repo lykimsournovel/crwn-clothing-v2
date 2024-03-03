@@ -40,8 +40,7 @@ export const categoriesSlice = createSlice({
       state.isLoading = false;
       state.categories = action.payload;
     },
-    fetchCategoriesStart(state, action) {
-      console.log(action.payload);
+    fetchCategoriesStart(state) {
       state.isLoading = true;
     },
   },

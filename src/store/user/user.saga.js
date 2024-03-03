@@ -119,7 +119,7 @@ export function* onSignOutStart() {
 export function* userSagas() {
   console.log("user");
   yield all([
-    // call(onCheckUserSession),
+    call(onCheckUserSession),
     call(onGoogleSignInStart),
     call(onEmailSignInStart),
     call(onSignUpStart),

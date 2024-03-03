@@ -9,6 +9,7 @@ import {
   googleSignInStart,
   emailSignInStart,
 } from '../../store/user/user.action';
+import { loginStart } from '../../store/user/user1.reducer'; 
 
 const defaultFormFields = {
   email: '',
@@ -32,8 +33,9 @@ const SignInForm = () => {
     event.preventDefault();
 
     try {
-      dispatch(emailSignInStart(email, password));
-      resetFormFields();
+      // dispatch(emailSignInStart(email, password));
+      dispatch(loginStart({email, password}));
+      // resetFormFields();
     } catch (error) {
       console.log('user sign in failed', error);
     }
