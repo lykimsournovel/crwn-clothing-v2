@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 
 import Home from "./routes/home/home.component";
 import Navigation from "./routes/navigation/navigation.component";
@@ -12,16 +12,17 @@ import { checkUserSession } from "./store/user/user.action";
 import { selectAuthenticated } from "./store/user/user.selector";
 
 const App = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const isAuthenticated = useSelector(selectAuthenticated);
+  // const isAuthenticated = localStorage.getItem("isAuthenticated");
   useEffect(() => {
+    console.log(isAuthenticated);
     dispatch(checkUserSession());
   }, []);
-  console.log(isAuthenticated);
+  // console.log(isAuthenticated);
 
-  if (!isAuthenticated) {
-    return <Authentication />;
-  } else {
+  if (isAuthenticated) {
     return (
       <Routes>
         <Route path="/" element={<Navigation />}>
@@ -32,6 +33,8 @@ const App = () => {
         </Route>
       </Routes>
     );
+  } else {
+    return <Authentication />;
   }
 };
 

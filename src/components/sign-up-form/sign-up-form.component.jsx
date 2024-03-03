@@ -11,6 +11,7 @@ import {
 
 import { SignUpContainer } from './sign-up-form.styles';
 import { signUpStart } from '../../store/user/user.action';
+import { userSignUpStart } from '../../store/user/user1.reducer'; 
 
 const defaultFormFields = {
   displayName: '',
@@ -30,15 +31,15 @@ const SignUpForm = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
     if (password !== confirmPassword) {
       alert('passwords do not match');
       return;
     }
 
     try {
-      dispatch(signUpStart(email, password, displayName));
-      resetFormFields();
+      // dispatch(signUpStart(email, password, displayName));
+      dispatch(userSignUpStart({email, password, displayName}));
+      // resetFormFields();
     } catch (error) {
       if (error.code === 'auth/email-already-in-use') {
         alert('Cannot create user, email already in use');
