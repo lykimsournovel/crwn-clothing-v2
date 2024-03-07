@@ -13,14 +13,11 @@ export const userSlice = createSlice({
   initialState: INITIAL_STATE,
   reducers: {
     signUp(state, action) {
-      console.log(action.payload);
       state.isLoading = false;
       state.currentUser = action.payload;
       state.isAuthenticated = true;
-      // localStorage.setItem("isAuthenticated", state.isAuthenticated);
     },
     login(state, action) {
-      console.log(action.payload);
       state.isLoading = false;
       state.currentUser = action.payload;
       state.isAuthenticated = true;

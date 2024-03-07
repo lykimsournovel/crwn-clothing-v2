@@ -9,7 +9,6 @@ import {
   createAuthUserWithEmailAndPassword,
   signOutUser,
 } from "../../utils/firebase/firebase.utils";
-import axios from "axios";
 import { signUp, login } from "./user1.reducer";
 
 export function* onSignUp({ payload: { email, password, displayName } }) {
@@ -37,10 +36,6 @@ export function* onSignUp({ payload: { email, password, displayName } }) {
   }
 }
 
-export function* onSignUpStart() {
-  yield takeLatest("user1/userSignUpStart", onSignUp);
-}
-
 export function* onLogin({ payload: { email, password } }) {
   try {
     const body = {
@@ -61,11 +56,14 @@ export function* onLogin({ payload: { email, password } }) {
   }
 }
 
+export function* onSignUpStart() {
+  yield takeLatest("user1/userSignUpStart", onSignUp);
+}
+
 export function* onLoginStart() {
   yield takeLatest("user1/loginStart", onLogin);
 }
 
 export function* user1Sagas() {
-  console.log("user1111");
   yield all([call(onSignUpStart), call(onLoginStart)]);
 }
