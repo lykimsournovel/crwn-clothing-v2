@@ -26,6 +26,22 @@ export const CartDropdownContainer = styled.div`
   }
 `;
 
+export const EmptyCartDropdownContainer = styled.div`
+  position: absolute;
+  flex-direction: column;
+  padding: 20px;
+  background-color: white;
+  top: 90px;
+  right: 40px;
+  z-index: 5;
+
+  ${BaseButton},
+  ${GoogleSignInButton},
+  ${InvertedButton} {
+    margin-top: auto;
+  }
+`;
+
 export const EmptyMessage = styled.span`
   font-size: 18px;
   margin: 50px auto;

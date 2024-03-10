@@ -1,5 +1,5 @@
 import { takeLatest, put, all, call } from "redux-saga/effects";
-import { axiosPost } from "../../utils/axios/axios.utils";
+import { axiosGet, axiosPost } from "../../utils/axios/axios.utils";
 import Cookies from "js-cookie";
 import {
   getCurrentUser,
@@ -9,7 +9,7 @@ import {
   createAuthUserWithEmailAndPassword,
   signOutUser,
 } from "../../utils/firebase/firebase.utils";
-import { signUp, login } from "./user1.reducer";
+import { signUp, login, checkout } from "./user1.reducer";
 
 export function* onSignUp({ payload: { email, password, displayName } }) {
   try {
@@ -46,13 +46,25 @@ export function* onLogin({ payload: { email, password } }) {
     console.log(user.data.authToken);
     Cookies.set("token", user.data.authToken.token, {
       secure: true,
+      expires: 365,
     });
     Cookies.set("refreshToken", user.data.authToken.refreshToken, {
       secure: true,
+      expires: 365,
     });
     yield put(login(user.data.user));
   } catch (error) {
     alert(error.response.data.message);
+  }
+}
+
+export function* checkoutStart() {
+  try {
+    const paymentSession = yield axiosGet("api/products/checkout");
+    console.log(paymentSession);
+    yield put(checkout(paymentSession.data.sessionId));
+  } catch (error) {
+    alert(error.response.data.error);
   }
 }
 
@@ -64,6 +76,10 @@ export function* onLoginStart() {
   yield takeLatest("user1/loginStart", onLogin);
 }
 
+export function* onCheckout() {
+  yield takeLatest("user1/checkoutStart", checkoutStart);
+}
+
 export function* user1Sagas() {
-  yield all([call(onSignUpStart), call(onLoginStart)]);
+  yield all([call(onSignUpStart), call(onLoginStart), call(onCheckout)]);
 }

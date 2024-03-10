@@ -13,10 +13,17 @@ import {
   HeaderBlock,
   Total,
 } from './checkout.styles';
+import { checkoutStart } from '../../store/user/user1.reducer';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { selectPaymentSession } from '../../store/user/user1.selector';
 
 const Checkout = () => {
+  const dispatch = useDispatch();
   const cartItems = useSelector(selectCartItems);
   const cartTotal = useSelector(selectCartTotal);
+  const paymentSession = useSelector(selectPaymentSession);
+  console.log(paymentSession);
 
   return (
     <CheckoutContainer>

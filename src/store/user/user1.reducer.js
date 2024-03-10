@@ -6,12 +6,21 @@ export const INITIAL_STATE = {
   isLoading: false,
   error: null,
   isAuthenticated: null,
+  paymentSession: null,
 };
 
 export const userSlice = createSlice({
   name: "user1",
   initialState: INITIAL_STATE,
   reducers: {
+    checkout(state, action) {
+      state.isLoading = false;
+      state.paymentSession = action.payload;
+    },
+
+    checkoutStart(state) {
+      state.isLoading = true;
+    },
     signUp(state, action) {
       state.isLoading = false;
       state.currentUser = action.payload;
@@ -40,7 +49,14 @@ export const userSlice = createSlice({
 
 console.log(userSlice);
 
-export const { signUp, userSignUpStart, loginStart, login, signout } =
-  userSlice.actions;
+export const {
+  signUp,
+  userSignUpStart,
+  loginStart,
+  login,
+  signout,
+  checkoutStart,
+  checkout,
+} = userSlice.actions;
 
 export const user1Reducer = userSlice.reducer;

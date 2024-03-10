@@ -24,10 +24,7 @@ const Navigation = () => {
   const dispatch = useDispatch();
   const currentUser = useSelector(selectCurrentUser);
   const isCartOpen = useSelector(selectIsCartOpen);
-
   const signOutUser = () => dispatch(signout());
-  console.log(Cookies.get('token'))
-
   return (
     <Fragment>
       <NavigationContainer>

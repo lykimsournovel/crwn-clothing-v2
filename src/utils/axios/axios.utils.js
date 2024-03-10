@@ -1,4 +1,5 @@
 import axios from "axios";
+import Cookies from "js-cookie";
 const api = axios.create({
   baseUrl: process.env.REACT_APP_BASH_URL,
 });
@@ -26,7 +27,7 @@ api.interceptors.response.use(
     if (error.response && error.response.status === 401) {
       // const newToken = await generateNewtoken();
       // localStorage.setItem("token", newToken);
-      return api.request(error.config);
+      // return api.request(error.config);
     }
     console.log(error);
     return Promise.reject(error);
@@ -53,7 +54,10 @@ export const axiosGet = async (apiUrl) => {
     method: "get",
     maxBodyLength: Infinity,
     url: process.env.REACT_APP_BASH_URL + apiUrl,
-    headers: {},
+    headers: {
+      Authorization: "Bearer " + Cookies.get("token"),
+    },
   };
+
   return await api.request(config);
 };
