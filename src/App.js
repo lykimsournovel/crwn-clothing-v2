@@ -39,7 +39,7 @@ const App = () => {
   const dispatch = useDispatch();
   const isAuthenticated = useSelector(selectAuthenticated);
   useEffect(() => {
-    dispatch(checkUserSession());
+    // dispatch(checkUserSession());
   }, []);
   if (isAuthenticated) {
     return (

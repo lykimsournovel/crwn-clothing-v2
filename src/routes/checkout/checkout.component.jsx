@@ -17,6 +17,7 @@ import { checkoutStart } from '../../store/user/user1.reducer';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { selectPaymentSession } from '../../store/user/user1.selector';
+import PaymentForm from '../../components/payment-form/payment-form.component';
 
 const Checkout = () => {
   const dispatch = useDispatch();
@@ -48,6 +49,7 @@ const Checkout = () => {
         <CheckoutItem key={cartItem.id} cartItem={cartItem} />
       ))}
       <Total>Total: ${cartTotal}</Total>
+      <PaymentForm />
     </CheckoutContainer>
   );
 };
