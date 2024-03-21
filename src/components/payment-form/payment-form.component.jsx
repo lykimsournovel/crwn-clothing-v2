@@ -2,11 +2,14 @@ import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import Button, { BUTTON_TYPE_CLASSES } from "../button/button.component";
 import { PaymentFormContainer, FormContainer } from "./payment-form.styles";
 import axios from "axios";
+import Cookies from "js-cookie";
 const PaymentForm = () => {
   const stripe = useStripe();
   const elements = useElements();
   const paymentHandler = async (e) => {
     e.preventDefault();
+    const token = Cookies.get("token");
+    console.log(token);
     if (!stripe || !elements) {
       return;
     }
@@ -20,8 +23,7 @@ const PaymentForm = () => {
       maxBodyLength: Infinity,
       url: "http://localhost:4000/api/products/checkout",
       headers: {
-        Authorization:
-          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Imx5a2ltc291cm5vdmVsQGdtYWlsLmNvbSIsImlkIjozMCwicm9sZXMiOiJhZG1pbiIsImlhdCI6MTcxMDI1NzQ0NywiZXhwIjoxNzEwMjc1NDQ3fQ.VKJU1vOV8AVGMJ3Vz7PkLbCL3d5LIcqNyhFdCfjWSo0",
+        Authorization: "Bearer " + token,
         "Content-Type": "application/json",
       },
       data: data,

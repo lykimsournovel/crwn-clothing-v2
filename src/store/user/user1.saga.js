@@ -22,11 +22,11 @@ export function* onSignUp({ payload: { email, password, displayName } }) {
     console.log(body);
     const user = yield axiosPost("users/register", body);
     Cookies.set("token", user.data.authToken.token, {
-      expires: 7,
+      expires: 365,
       secure: true,
     });
     Cookies.set("refreshToken", user.data.authToken.refreshToken, {
-      expires: 7,
+      expires: 365,
       secure: true,
     });
     yield put(signUp(user.data.user));
