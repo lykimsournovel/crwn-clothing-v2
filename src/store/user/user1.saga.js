@@ -60,11 +60,12 @@ export function* onLogin({ payload: { email, password } }) {
 
 export function* checkoutStart() {
   try {
-    const paymentSession = yield axiosGet("api/products/checkout");
-    console.log(paymentSession);
-    yield put(checkout(paymentSession.data.sessionId));
+    console.log("checkout");
+    // const paymentSession = yield axiosGet("api/products/checkout");
+    // console.log(paymentSession);
+    // yield put(checkout(paymentSession.data.sessionId));
   } catch (error) {
-    alert(error.response.data.error);
+    // alert(error.response.data.error);
   }
 }
 
@@ -81,5 +82,6 @@ export function* onCheckout() {
 }
 
 export function* user1Sagas() {
+  console.log("user1");
   yield all([call(onSignUpStart), call(onLoginStart), call(onCheckout)]);
 }

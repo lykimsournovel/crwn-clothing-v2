@@ -43,6 +43,7 @@ export const axiosPost = async (apiUrl, body) => {
     url: process.env.REACT_APP_BASH_URL + apiUrl,
     headers: {
       "Content-Type": "application/json",
+      Authorization: "Bearer " + Cookies.get("token"),
     },
     data: data,
   };

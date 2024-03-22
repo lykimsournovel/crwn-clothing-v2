@@ -1,26 +1,22 @@
-import { useSelector } from 'react-redux';
+import { useSelector } from "react-redux";
 
 import {
   selectCartItems,
   selectCartTotal,
-} from '../../store/cart/cart.selector';
+} from "../../store/cart/cart.selector";
 
-import CheckoutItem from '../../components/checkout-item/checkout-item.component';
+import CheckoutItem from "../../components/checkout-item/checkout-item.component";
 
 import {
   CheckoutContainer,
   CheckoutHeader,
   HeaderBlock,
   Total,
-} from './checkout.styles';
-import { checkoutStart } from '../../store/user/user1.reducer';
-import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { selectPaymentSession } from '../../store/user/user1.selector';
-import PaymentForm from '../../components/payment-form/payment-form.component';
+} from "./checkout.styles";
+import { selectPaymentSession } from "../../store/user/user1.selector";
+import PaymentForm from "../../components/payment-form/payment-form.component";
 
 const Checkout = () => {
-  const dispatch = useDispatch();
   const cartItems = useSelector(selectCartItems);
   const cartTotal = useSelector(selectCartTotal);
   const paymentSession = useSelector(selectPaymentSession);
@@ -49,7 +45,8 @@ const Checkout = () => {
         <CheckoutItem key={cartItem.id} cartItem={cartItem} />
       ))}
       <Total>Total: ${cartTotal}</Total>
-      <PaymentForm />
+
+      {cartTotal ? <PaymentForm cardTotal={cartTotal} /> : null}
     </CheckoutContainer>
   );
 };

@@ -1,46 +1,42 @@
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import Button, { BUTTON_TYPE_CLASSES } from "../button/button.component";
-import { PaymentFormContainer, FormContainer } from "./payment-form.styles";
-import axios from "axios";
-import Cookies from "js-cookie";
-const PaymentForm = () => {
+import {
+  PaymentFormContainer,
+  FormContainer,
+  CardContainer,
+} from "./payment-form.styles";
+import { axiosPost } from "../../utils/axios/axios.utils";
+import "./payment.style.css";
+
+const PaymentForm = (props) => {
+  const { cardTotal } = props;
   const stripe = useStripe();
   const elements = useElements();
+
   const paymentHandler = async (e) => {
     e.preventDefault();
-    const token = Cookies.get("token");
-    console.log(token);
     if (!stripe || !elements) {
       return;
     }
-
-    let data = JSON.stringify({
-      amount: 500 * 100,
-    });
-
-    let config = {
-      method: "post",
-      maxBodyLength: Infinity,
-      url: "http://localhost:4000/api/products/checkout",
-      headers: {
-        Authorization: "Bearer " + token,
-        "Content-Type": "application/json",
-      },
-      data: data,
+    const data = {
+      amount: cardTotal * 100,
     };
+
     try {
-      const respond = await axios.request(config);
-      const {
-        paymentIntent: { client_secret },
-      } = respond.data;
-      const paymentResult = await stripe.confirmCardPayment(client_secret, {
-        payment_method: {
-          card: elements.getElement(CardElement),
-          billing_details: {
-            name: "lykimsour",
-          },
+      const respond = await axiosPost("api/products/checkout", data);
+      const { client_secret } = respond.data.paymentIntent;
+
+      const methodData = {
+        card: elements.getElement(CardElement),
+        billing_details: {
+          name: "lykimsour",
         },
+      };
+
+      const paymentResult = await stripe.confirmCardPayment(client_secret, {
+        payment_method: methodData,
       });
+
       if (paymentResult.error) {
         alert(paymentResult.error);
       } else {
@@ -48,7 +44,6 @@ const PaymentForm = () => {
           alert("success");
         }
       }
-      console.log(paymentResult);
     } catch (error) {
       alert(error.message);
     }
