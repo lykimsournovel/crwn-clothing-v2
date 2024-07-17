@@ -7,6 +7,7 @@ export const INITIAL_STATE = {
   error: null,
   isAuthenticated: null,
   paymentSession: null,
+  test: null,
 };
 
 export const userSlice = createSlice({
@@ -28,8 +29,9 @@ export const userSlice = createSlice({
     },
     login(state, action) {
       state.isLoading = false;
-      state.currentUser = action.payload;
+      state.currentUser = action.payload.user;
       state.isAuthenticated = true;
+      state.test = action.payload.test;
     },
     userSignUpStart(state) {
       state.isLoading = true;

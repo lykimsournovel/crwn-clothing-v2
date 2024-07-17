@@ -14,13 +14,14 @@ import { loginStart } from "../../store/user/user1.reducer";
 const defaultFormFields = {
   email: "",
   password: "",
+  test: "this is just a test passage",
 };
 
 const SignInForm = () => {
   const dispatch = useDispatch();
   const [formFields, setFormFields] = useState(defaultFormFields);
   const { email, password } = formFields;
-
+  const test = defaultFormFields.test;
   const resetFormFields = () => {
     setFormFields(defaultFormFields);
   };
@@ -34,7 +35,7 @@ const SignInForm = () => {
 
     try {
       // dispatch(emailSignInStart(email, password));
-      dispatch(loginStart({ email, password }));
+      dispatch(loginStart({ email, password, test }));
       // resetFormFields();
     } catch (error) {
       console.log("user sign in failed", error);

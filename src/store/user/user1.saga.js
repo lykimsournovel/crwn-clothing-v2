@@ -36,7 +36,8 @@ export function* onSignUp({ payload: { email, password, displayName } }) {
   }
 }
 
-export function* onLogin({ payload: { email, password } }) {
+export function* onLogin({ payload: { email, password, test } }) {
+  console.log(test);
   try {
     const body = {
       email: email,
@@ -52,7 +53,7 @@ export function* onLogin({ payload: { email, password } }) {
       secure: true,
       expires: 365,
     });
-    yield put(login(user.data.user));
+    yield put(login({ user: user.data.user, test: test }));
   } catch (error) {
     alert(error.response.data.message);
   }
