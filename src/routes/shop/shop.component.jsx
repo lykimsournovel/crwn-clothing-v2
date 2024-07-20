@@ -6,12 +6,14 @@ import CategoriesPreview from "../categories-preview/categories-preview.componen
 import Category from "../category/category.component";
 // import { fetchCategoriesStart } from '../../store/categories/category.action';
 import { fetchCategoriesStart } from "../../store/categories/category.reducer";
+import { fetchProductRequest } from "../../store/product/productSlice";
 
 const Shop = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(fetchCategoriesStart());
+    dispatch(fetchProductRequest());
   }, []);
 
   return (

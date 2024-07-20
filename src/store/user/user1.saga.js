@@ -9,7 +9,7 @@ import {
   createAuthUserWithEmailAndPassword,
   signOutUser,
 } from "../../utils/firebase/firebase.utils";
-import { signUp, login, checkout } from "./user1.reducer";
+import { signUp, login, checkout, loginStart } from "./user1.reducer";
 
 export function* onSignUp({ payload: { email, password, displayName } }) {
   try {
@@ -75,7 +75,9 @@ export function* onSignUpStart() {
 }
 
 export function* onLoginStart() {
+  console.log("sdsdsd");
   yield takeLatest("user1/loginStart", onLogin);
+  // yield takeLatest(loginStart.type, onLogin);
 }
 
 export function* onCheckout() {
