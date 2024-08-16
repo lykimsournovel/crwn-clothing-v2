@@ -1,17 +1,13 @@
 import axios from "axios";
 import Cookies from "js-cookie";
+
 const api = axios.create({
   baseUrl: process.env.REACT_APP_BASH_URL,
 });
-// console.log(api);
 
 api.interceptors.request.use(
   (config) => {
     console.log(config);
-    // const token = localStorage.getItem("token");
-    // if (token) {
-    //   config.headers.Authorization = `Bearer ${token}`;
-    // }
     return config;
   },
   (error) => {
@@ -24,17 +20,63 @@ api.interceptors.response.use(
     return res;
   },
   async (error) => {
-    if (error.response && error.response.status === 401) {
-      // const newToken = await generateNewtoken();
-      // localStorage.setItem("token", newToken);
-      // return api.request(error.config);
+    const originalRequest = error.config;
+    if (error.response.status === 401) {
+      if (error.response.data.message === "refresh_token_expired") {
+        removeAllTokenAndCookiesThenLogOut();
+      } else {
+        originalRequest._retry = true;
+        try {
+          const authToken = await refreshUserToken("users/token");
+          originalRequest.headers[
+            "Authorization"
+          ] = `Bearer ${authToken.token}`;
+          return api(originalRequest);
+        } catch (error) {
+          return Promise.reject(error);
+        }
+      }
     }
-    console.log(error);
     return Promise.reject(error);
   }
 );
 
-const generateNewtoken = () => {};
+const refreshUserToken = async (apiUrl) => {
+  let data = JSON.stringify({
+    token: Cookies.get("refreshToken"),
+  });
+  let config = {
+    method: "post",
+    maxBodyLength: Infinity,
+    url: process.env.REACT_APP_BASH_URL + apiUrl,
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + Cookies.get("token"),
+    },
+    data: data,
+  };
+  const response = (await api.request(config)).data;
+  const authToken = response.authToken;
+  if (authToken) {
+    localStorage.setItem("isAuthenticated", true);
+    localStorage.setItem("isAuthenticated", JSON.stringify(true));
+    Cookies.set("token", authToken.token, {
+      secure: true,
+    });
+    Cookies.set("refreshToken", authToken.refreshToken, {
+      secure: true,
+    });
+  }
+  return response.authToken;
+};
+
+export const removeAllTokenAndCookiesThenLogOut = () => {
+  Cookies.remove("token");
+  Cookies.remove("refreshToken");
+  localStorage.setItem("isAuthenticated", JSON.stringify(false));
+  window.location.href = "/";
+};
+
 export const axiosPost = async (apiUrl, body) => {
   let data = JSON.stringify(body);
   let config = {
@@ -59,6 +101,5 @@ export const axiosGet = async (apiUrl) => {
       Authorization: "Bearer " + Cookies.get("token"),
     },
   };
-
   return await api.request(config);
 };

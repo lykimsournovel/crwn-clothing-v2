@@ -1,4 +1,5 @@
 import { USER_ACTION_TYPES } from "./user.types";
+import Cookies from "js-cookie";
 
 const INITIAL_STATE = {
   currentUser: null,
@@ -12,10 +13,10 @@ export const userReducer = (state = INITIAL_STATE, action) => {
 
   switch (type) {
     case USER_ACTION_TYPES.SIGN_IN_SUCCESS:
-      localStorage.setItem("isAuthenticated", true);
+      localStorage.setItem("isAuthenticated", JSON.stringify(true));
       return { ...state, currentUser: payload, isAuthenticated: true };
     case USER_ACTION_TYPES.SIGN_OUT_SUCCESS:
-      localStorage.setItem("isAuthenticated", false);
+      localStorage.setItem("isAuthenticated", JSON.stringify(false));
       return { ...state, currentUser: null, isAuthenticated: false };
     case USER_ACTION_TYPES.SIGN_OUT_FAILED:
     case USER_ACTION_TYPES.SIGN_IN_FAILED:

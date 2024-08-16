@@ -30,6 +30,7 @@ export const userSlice = createSlice({
     login(state, action) {
       state.isLoading = false;
       state.currentUser = action.payload.user;
+      localStorage.setItem("isAuthenticated", JSON.stringify(true));
       state.isAuthenticated = true;
       state.test = action.payload.test;
     },
@@ -43,6 +44,7 @@ export const userSlice = createSlice({
       state.isLoading = false;
       state.currentUser = null;
       state.isAuthenticated = null;
+      localStorage.setItem("isAuthenticated", JSON.stringify(false));
       Cookies.remove("token");
       Cookies.remove("refreshToken");
     },

@@ -22,11 +22,9 @@ export function* onSignUp({ payload: { email, password, displayName } }) {
     console.log(body);
     const user = yield axiosPost("users/register", body);
     Cookies.set("token", user.data.authToken.token, {
-      expires: 365,
       secure: true,
     });
     Cookies.set("refreshToken", user.data.authToken.refreshToken, {
-      expires: 365,
       secure: true,
     });
     yield put(signUp(user.data.user));
@@ -47,11 +45,9 @@ export function* onLogin({ payload: { email, password, test } }) {
     console.log(user.data.authToken);
     Cookies.set("token", user.data.authToken.token, {
       secure: true,
-      expires: 365,
     });
     Cookies.set("refreshToken", user.data.authToken.refreshToken, {
       secure: true,
-      expires: 365,
     });
     yield put(login({ user: user.data.user, test: test }));
   } catch (error) {
@@ -75,7 +71,6 @@ export function* onSignUpStart() {
 }
 
 export function* onLoginStart() {
-  console.log("sdsdsd");
   yield takeLatest("user1/loginStart", onLogin);
   // yield takeLatest(loginStart.type, onLogin);
 }

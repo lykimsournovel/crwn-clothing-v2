@@ -11,6 +11,9 @@ import Checkout from "./routes/checkout/checkout.component";
 import { checkUserSession } from "./store/user/user.action";
 // import { selectAuthenticated } from "./store/user/user.selector";
 import { selectAuthenticated } from "./store/user/user1.selector";
+import { axiosGet, axiosPost } from "./utils/axios/axios.utils";
+import { combineSlices } from "@reduxjs/toolkit";
+import { signout } from "./store/user/user1.reducer";
 
 // const App = () => {
 //   const dispatch = useDispatch();
@@ -38,9 +41,14 @@ import { selectAuthenticated } from "./store/user/user1.selector";
 const App = () => {
   const dispatch = useDispatch();
   const isAuthenticated = useSelector(selectAuthenticated);
-  useEffect(() => {
-    // dispatch(checkUserSession());
-  }, []);
+  const checkIfLogin = JSON.parse(localStorage.getItem("isAuthenticated"));
+  if (!checkIfLogin) {
+    console.log("logout");
+    dispatch(signout());
+  }
+
+  useEffect(() => {}, []);
+
   if (isAuthenticated) {
     return (
       <Routes>

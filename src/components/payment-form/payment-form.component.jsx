@@ -53,6 +53,7 @@ const PaymentForm = (props) => {
       <FormContainer onSubmit={paymentHandler}>
         <h2>Credit card payment</h2>
         <CardElement />
+        <br />
         <Button type={BUTTON_TYPE_CLASSES.inverted}>Pay Now</Button>
       </FormContainer>
     </PaymentFormContainer>

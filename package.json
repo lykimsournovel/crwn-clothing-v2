@@ -13,6 +13,7 @@
     "env-cmd": "^10.1.0",
     "firebase": "9.6.6",
     "js-cookie": "^3.0.5",
+    "jwt-decode": "^4.0.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-redux": "7.2.6",
@@ -29,9 +30,10 @@
     "web-vitals": "2.1.4"
   },
   "scripts": {
-    "start:prod": "env-cmd .env react-scripts start",
+    "start:prod": "env-cmd -f .env react-scripts start",
     "start:dev": "env-cmd -f .env.development react-scripts start",
-    "build": "react-scripts build",
+    "build:prod": "env-cmd -f .env react-scripts build",
+    "build:dev": "env-cmd -f .env.development react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
