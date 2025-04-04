@@ -39,9 +39,12 @@ import { signout } from "./store/user/user1.reducer";
 // };
 
 const App = () => {
+  console.log("App");
   const dispatch = useDispatch();
   const isAuthenticated = useSelector(selectAuthenticated);
+  console.log("eurtututu:" + isAuthenticated);
   const checkIfLogin = JSON.parse(localStorage.getItem("isAuthenticated"));
+
   if (!checkIfLogin) {
     console.log("logout");
     dispatch(signout());
@@ -61,6 +64,7 @@ const App = () => {
       </Routes>
     );
   } else {
+    console.log("authenticatio");
     return <Authentication />;
   }
 };
