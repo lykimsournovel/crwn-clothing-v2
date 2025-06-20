@@ -43,12 +43,17 @@ export function* onLogin({ payload: { email, password, test } }) {
     };
     const user = yield axiosPost("users/login", body);
     console.log(user.data.authToken);
-    Cookies.set("token", user.data.authToken.token, {
-      secure: true,
-    });
-    Cookies.set("refreshToken", user.data.authToken.refreshToken, {
-      secure: true,
-    });
+    localStorage.setItem("token", JSON.stringify(user.data.authToken.token));
+    localStorage.setItem(
+      "refreshToken",
+      JSON.stringify(user.data.authToken.refreshToken)
+    );
+    // Cookies.set("token", user.data.authToken.token, {
+    //   secure: true,
+    // });
+    // Cookies.set("refreshToken", user.data.authToken.refreshToken, {
+    //   secure: true,
+    // });
     yield put(login({ user: user.data.user, test: test }));
   } catch (error) {
     alert(error.response.data.message);

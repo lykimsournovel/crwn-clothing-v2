@@ -36,15 +36,16 @@ const PaymentForm = (props) => {
       const paymentResult = await stripe.confirmCardPayment(client_secret, {
         payment_method: methodData,
       });
-
       if (paymentResult.error) {
-        alert(paymentResult.error);
+        alert(paymentResult.error.message);
+        console.log(paymentResult.error.message);
       } else {
         if (paymentResult.paymentIntent.status === "succeeded") {
           alert("success");
         }
       }
     } catch (error) {
+      console.log(error);
       alert(error.message);
     }
   };

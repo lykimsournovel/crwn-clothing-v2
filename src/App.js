@@ -47,7 +47,7 @@ const App = () => {
 
   if (!checkIfLogin) {
     console.log("logout");
-    dispatch(signout());
+    // dispatch(signout());
   }
 
   useEffect(() => {}, []);

@@ -25,6 +25,7 @@ api.interceptors.response.use(
       if (error.response.data.message === "refresh_token_expired") {
         removeAllTokenAndCookiesThenLogOut();
       } else {
+        console.log(originalRequest);
         originalRequest._retry = true;
         try {
           const authToken = await refreshUserToken("users/token");
@@ -43,15 +44,17 @@ api.interceptors.response.use(
 
 const refreshUserToken = async (apiUrl) => {
   let data = JSON.stringify({
-    token: Cookies.get("refreshToken"),
+    token: JSON.parse(localStorage.getItem("refreshToken")),
   });
+  // let data = JSON.parse(localStorage.getItem("refreshToken"));
   let config = {
     method: "post",
     maxBodyLength: Infinity,
     url: process.env.REACT_APP_BASH_URL + apiUrl,
     headers: {
       "Content-Type": "application/json",
-      Authorization: "Bearer " + Cookies.get("token"),
+      Authorization:
+        "Bearer " + JSON.parse(localStorage.getItem("refreshToken")),
     },
     data: data,
   };
@@ -79,13 +82,15 @@ export const removeAllTokenAndCookiesThenLogOut = () => {
 
 export const axiosPost = async (apiUrl, body) => {
   let data = JSON.stringify(body);
+  const token = JSON.parse(localStorage.getItem("token"));
+  console.log(token);
   let config = {
     method: "post",
     maxBodyLength: Infinity,
     url: process.env.REACT_APP_BASH_URL + apiUrl,
     headers: {
       "Content-Type": "application/json",
-      Authorization: "Bearer " + Cookies.get("token"),
+      Authorization: "Bearer " + token,
     },
     data: data,
   };
@@ -93,12 +98,15 @@ export const axiosPost = async (apiUrl, body) => {
 };
 
 export const axiosGet = async (apiUrl) => {
+  console.log(Cookies.get("token"));
+  const token = JSON.parse(localStorage.getItem("token"));
+  console.log(token);
   let config = {
     method: "get",
     maxBodyLength: Infinity,
     url: process.env.REACT_APP_BASH_URL + apiUrl,
     headers: {
-      Authorization: "Bearer " + Cookies.get("token"),
+      Authorization: "Bearer " + token,
     },
   };
   return await api.request(config);

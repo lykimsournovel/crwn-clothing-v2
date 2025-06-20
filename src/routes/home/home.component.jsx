@@ -13,7 +13,7 @@ const Home = () => {
     try {
       getProducts();
     } catch (error) {
-      // console.log(error);
+      console.log(error);
     }
   }, []);
   return (
